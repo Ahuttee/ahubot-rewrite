@@ -1,0 +1,3 @@
+discord
+PyNacl
+udpy # Urban dictionary API

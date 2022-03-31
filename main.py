@@ -3,8 +3,16 @@ from discord.ext import commands
 import json
 import os
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
+
+config = {}
+
+# I also run this bot on a heroku server so
+if 'HEROKU' in os.environ:
+    config['token'] = os.environ['TOKEN']
+    config['prefix'] = os.environ['PREFIX']
+else:
+    with open('config.json', 'r') as f:
+        config = json.load(f)
 
 client = commands.Bot(
         command_prefix=config['prefix'],
