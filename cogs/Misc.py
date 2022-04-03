@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from udpy import UrbanClient
+import random
 
 udclient = UrbanClient()
 
@@ -14,7 +15,7 @@ class Misc(commands.Cog):
         if len(definitions) == 0:
             await ctx.send("I couldn't find the word")
         else:
-            await ctx.send(f"**{text}**\n\n{definitions[0].definition}")
+            await ctx.send(f"**{text}**\n\n{random.choice(definitions).definition}")
 
 
 def setup(client):
