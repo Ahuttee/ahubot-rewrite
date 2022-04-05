@@ -8,8 +8,10 @@ import time
 
 # Here lies commands that you can use to communicate with God, just like in TempleOS
 
-with open("dictionary.json", 'r') as f:
-    dictionary = json.load(f)
+# Dictionary for godspeak
+with open("godspeak.json", 'r') as f:
+    god_dictionary = json.load(f)
+
 
 class God(commands.Cog):
     def __init__(self, client):
@@ -23,7 +25,7 @@ class God(commands.Cog):
         async with ctx.typing():
             words = ""
             for _ in range(n):
-                words += random.choice(dictionary) + " "
+                words += random.choice(god_dictionary) + " "
 
             if len(words) > 8 * 1024 * 1024:
                 await ctx.send("The text reaches the maximum filesize limit")
@@ -31,6 +33,7 @@ class God(commands.Cog):
                 with io.StringIO(words) as f:
                     await ctx.send(file=discord.File(fp=f, filename="godspeak.txt"))
             else: await ctx.send(words)
+        
 
 
     @commands.command(aliases=['godmusic'])
