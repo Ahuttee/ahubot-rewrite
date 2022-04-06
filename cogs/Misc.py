@@ -4,8 +4,12 @@ from udpy import UrbanClient
 import random
 import os
 import json
+import requests
+from utils import amongus
+from io import BytesIO
 
 udclient = UrbanClient()
+susser = amongus.AmongUs()
 
 # Load the alphabetically sorted dictionary
 # This dictionary is not mine. I believe it's made by tusharlock10 
@@ -63,5 +67,22 @@ class Misc(commands.Cog):
 			return
 		
 		
+	@commands.command()
+	async def avatar(self, ctx, member: discord.Member = None):
+		if member is None:
+			member = ctx.author
+		await ctx.send(member.avatar_url)
+
+	@commands.command(aliases=['amogusmeter'])
+	async def amogus(self, ctx, member: discord.Member = None):
+		if member is None:
+			member = ctx.author
+
+		input_file = BytesIO(requests.get(member.avatar_url).content)
+		output_file = susser.convert_image(input_file)
+
+		await ctx.send(file=discord.File(output_file, 'amogus.gif'))
+
+
 def setup(client):
 	client.add_cog(Misc(client))
