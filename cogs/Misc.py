@@ -91,8 +91,8 @@ class Misc(commands.Cog):
 		await ctx.send(file=discord.File(output_file, 'amogus.gif'))
 
 	@commands.command()
-	async def askd(self, ctx, *, message):
-		with cleverbotfree.async_playwright() as pw:
+	async def ask(self, ctx, *, message):
+		async with cleverbotfree.async_playwright() as pw:
 			clever = await cleverbotfree.CleverbotAsync(pw)
 			# The first request always returns an empty message for some reason
 			await clever.single_exchange(message)
