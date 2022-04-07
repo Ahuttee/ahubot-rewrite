@@ -7,6 +7,7 @@ import json
 import requests
 from utils import amongus
 from io import BytesIO
+import cleverbotfree
 
 udclient = UrbanClient()
 susser = amongus.AmongUs()
@@ -83,6 +84,16 @@ class Misc(commands.Cog):
 
 		await ctx.send(file=discord.File(output_file, 'amogus.gif'))
 
+	@commands.command()
+	async def ask(self, ctx, *, message):
+		async with cleverbotfree.async_playwright() as pw:
+			clever = await cleverbotfree.CleverbotAsync(pw)
+			# The first request always returns an empty message for some reason
+			await clever.single_exchange(message)
+
+			response = await clever.single_exchange(message)
+			await ctx.send(response)
+		clever.close()
 
 def setup(client):
 	client.add_cog(Misc(client))
