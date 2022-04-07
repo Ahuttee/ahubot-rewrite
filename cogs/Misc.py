@@ -8,9 +8,15 @@ import requests
 from utils import amongus
 from io import BytesIO
 import cleverbotfree
+import sys
 
 udclient = UrbanClient()
 susser = amongus.AmongUs()
+
+# A workaround for playwright
+from subprocess import Popen, PIPE
+Popen([sys.executable, "-m", "playwright", "install"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+
 
 # Load the alphabetically sorted dictionary
 # This dictionary is not mine. I believe it's made by tusharlock10 
@@ -85,8 +91,8 @@ class Misc(commands.Cog):
 		await ctx.send(file=discord.File(output_file, 'amogus.gif'))
 
 	@commands.command()
-	async def ask(self, ctx, *, message):
-		async with cleverbotfree.async_playwright() as pw:
+	async def askd(self, ctx, *, message):
+		with cleverbotfree.async_playwright() as pw:
 			clever = await cleverbotfree.CleverbotAsync(pw)
 			# The first request always returns an empty message for some reason
 			await clever.single_exchange(message)
