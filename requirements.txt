@@ -6,3 +6,4 @@ numpy
 cleverbotfree # https://pypi.org/project/cleverbotfree/
 # A fork of fake-useragent to fix a small issue, see https://stackoverflow.com/questions/68772211/fake-useragent-module-not-connecting-properly-indexerror-list-index-out-of-ra
 git+https://github.com/Ahuttee/fake-useragent.git#egg=fake-useragent
+git+https://github.com/Ahuttee/cleverbotfree.git#egg=cleverbotfree
