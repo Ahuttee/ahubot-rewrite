@@ -15,8 +15,9 @@ udclient = UrbanClient()
 susser = amongus.AmongUs()
 
 # A workaround for playwright
-from subprocess import Popen, PIPE
-Popen([sys.executable, "-m", "playwright", "install"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+if 'HEROKU' in os.environ:
+    from subprocess import Popen, PIPE
+    Popen([sys.executable, "-m", "playwright", "install"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
 
 # Load the alphabetically sorted dictionary
