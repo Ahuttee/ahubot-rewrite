@@ -9,6 +9,7 @@ from utils import amongus
 from io import BytesIO
 import cleverbotfree
 import sys
+import asyncio
 
 udclient = UrbanClient()
 susser = amongus.AmongUs()
@@ -100,6 +101,55 @@ class Misc(commands.Cog):
 			response = await clever.single_exchange(message)
 			await ctx.send(response)
 		clever.close()
+
+	@commands.command()
+	async def converse(self, ctx):
+		opening = await ctx.send("Trying to create a session...")
+		async with cleverbotfree.async_playwright() as pw:
+			clever = await cleverbotfree.CleverbotAsync(pw)
+			await clever.get_form()
+			await opening.delete()
+			await ctx.send(f"{ctx.author.mention}\nSession created. The chat will end if theres no activity for 5 minutes, type 'exit' when you're done\nSay hi!")
+			input_msg = ""
+			# First response is always blank for some reason
+			await clever.send_input("")
+
+			try:
+				input_msg = await ctx.bot.wait_for('message',
+				check=lambda m: m.channel == ctx.channel, 
+				timeout=300)
+
+				input_msg = input_msg.content
+			except asyncio.TimeoutError:
+				input_msg = "exit"
+
+
+			while input_msg != "exit":
+				async with ctx.typing():
+					await clever.send_input(input_msg)
+					response = await clever.get_response()
+				await ctx.send(response)
+
+				try:
+					input_msg = await ctx.bot.wait_for('message',
+					check=lambda m: m.channel == ctx.channel, 
+					timeout=300)
+					input_msg = input_msg.content
+				except asyncio.TimeoutError:
+					break
+
+			await clever.close()
+			await ctx.send("Session ended")
+
+
+
+
+			
+
+		
+
+		
+
 
 def setup(client):
 	client.add_cog(Misc(client))
