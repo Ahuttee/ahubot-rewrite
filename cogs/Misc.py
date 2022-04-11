@@ -129,7 +129,7 @@ class Misc(commands.Cog):
 				async with ctx.typing():
 					await clever.send_input(input_msg)
 					response = await clever.get_response()
-					if response == "": response = "..."  # Add some characters if it returns an empty string
+					if response == "": response = "⠀"
 
 				await ctx.send(response)
 
