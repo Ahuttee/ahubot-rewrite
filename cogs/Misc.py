@@ -120,7 +120,7 @@ class Misc(commands.Cog):
 				check=lambda m: m.channel == ctx.channel, 
 				timeout=300)
 
-				input_msg = input_msg.content
+				input_msg = input_msg.content.replace("\n", " ")
 			except asyncio.TimeoutError:
 				input_msg = "exit"
 
@@ -129,13 +129,15 @@ class Misc(commands.Cog):
 				async with ctx.typing():
 					await clever.send_input(input_msg)
 					response = await clever.get_response()
+					if response == "": response = "..."  # Add some characters if it returns an empty string
+
 				await ctx.send(response)
 
 				try:
 					input_msg = await ctx.bot.wait_for('message',
 					check=lambda m: m.channel == ctx.channel, 
 					timeout=300)
-					input_msg = input_msg.content
+					input_msg = input_msg.content.replace("\n", " ")
 				except asyncio.TimeoutError:
 					break
 
