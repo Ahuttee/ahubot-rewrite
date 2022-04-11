@@ -120,7 +120,7 @@ class Misc(commands.Cog):
 				check=lambda m: m.channel == ctx.channel, 
 				timeout=300)
 
-				input_msg = input_msg.content.replace("\n", " ")
+				input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
 			except asyncio.TimeoutError:
 				input_msg = "exit"
 
@@ -137,7 +137,7 @@ class Misc(commands.Cog):
 					input_msg = await ctx.bot.wait_for('message',
 					check=lambda m: m.channel == ctx.channel, 
 					timeout=300)
-					input_msg = input_msg.content.replace("\n", " ")
+					input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
 				except asyncio.TimeoutError:
 					break
 
