@@ -111,21 +111,26 @@ class Misc(commands.Cog):
 			await clever.get_form()
 			await opening.delete()
 			await ctx.send(f"{ctx.author.mention}\nSession created. The chat will end if theres no activity for 5 minutes, type 'exit' when you're done\nSay hi!")
-			input_msg = ""
 			# First response is always blank for some reason
 			await clever.send_input("")
 
-			try:
-				input_msg = await ctx.bot.wait_for('message',
-				check=lambda m: m.channel == ctx.channel, 
-				timeout=300)
+			while True:
+				try:
+					input_msg = await ctx.bot.wait_for('message',
+					check=lambda m: m.channel == ctx.channel, 
+					timeout=300)
+					input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
+				except asyncio.TimeoutError:
+                    await self.browser.close()
+                    await ctx.send("Timeout reached, exiting session")
+                    return
+					
 
-				input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
-			except asyncio.TimeoutError:
-				input_msg = "exit"
+                if input_msg == "exit":
+                    await clever.browser.close()
+                    await ctx.send("Ok, exiting session")
+                    return
 
-
-			while input_msg != "exit":
 				async with ctx.typing():
 					await clever.send_input(input_msg)
 					response = await clever.get_response()
@@ -133,16 +138,7 @@ class Misc(commands.Cog):
 
 				await ctx.send(response)
 
-				try:
-					input_msg = await ctx.bot.wait_for('message',
-					check=lambda m: m.channel == ctx.channel, 
-					timeout=300)
-					input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
-				except asyncio.TimeoutError:
-					break
-
-			await clever.close()
-			await ctx.send("Session ended")
+			await clever.browser.close()
 
 
 
