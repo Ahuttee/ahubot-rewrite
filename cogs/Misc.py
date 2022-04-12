@@ -122,7 +122,7 @@ class Misc(commands.Cog):
 					timeout=300)
 					input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
 				except asyncio.TimeoutError:
-					await self.browser.close()
+					await clever.browser.close()
 					await ctx.send("Timeout reached, exiting session")
 					return
 					
