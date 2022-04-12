@@ -11,6 +11,7 @@ import cleverbotfree
 import sys
 import asyncio
 
+
 udclient = UrbanClient()
 susser = amongus.AmongUs()
 
@@ -121,15 +122,15 @@ class Misc(commands.Cog):
 					timeout=300)
 					input_msg = input_msg.content.replace("\n", " ").replace("\"", " ").replace("\\", " ") # replace weird characters
 				except asyncio.TimeoutError:
-                    await self.browser.close()
-                    await ctx.send("Timeout reached, exiting session")
-                    return
+					await self.browser.close()
+					await ctx.send("Timeout reached, exiting session")
+					return
 					
 
-                if input_msg == "exit":
-                    await clever.browser.close()
-                    await ctx.send("Ok, exiting session")
-                    return
+				if input_msg == "exit":
+					await clever.browser.close()
+					await ctx.send("Ok, exiting session")
+					return
 
 				async with ctx.typing():
 					await clever.send_input(input_msg)
